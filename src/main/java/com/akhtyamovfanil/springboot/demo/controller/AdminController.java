@@ -1,6 +1,8 @@
 package com.akhtyamovfanil.springboot.demo.controller;
 
 import com.akhtyamovfanil.springboot.demo.model.User;
+
+import com.akhtyamovfanil.springboot.demo.repository.RoleRepository;
 import com.akhtyamovfanil.springboot.demo.service.RoleService;
 import com.akhtyamovfanil.springboot.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+    @Autowired
     private RoleService roleService;
+
 
 
 
@@ -32,7 +36,7 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("new");
         modelAndView.addObject("user", new User());
-        //modelAndView.addObject("rolesList", roleService.getRoleSet());
+        modelAndView.addObject("rolesList", roleService.getRoleSet());
         return modelAndView;
     }
 
@@ -58,7 +62,7 @@ public class AdminController {
 
     @PatchMapping(value = "/{id}")
     public String editUserPatch(@ModelAttribute("user") User user, HttpServletRequest req) {
-        String[] selectedRoles = req.getParameterValues("selectRoles");
+        String[] selectedRoles = req.getParameterValues("selectedRoles");
         userService.save(user, selectedRoles);
         return "redirect:/admin";
     }

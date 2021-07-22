@@ -15,9 +15,8 @@ public class Role  {
     @Column
     private String name;
 
-/*
     @ManyToMany(mappedBy = "roles")
-    private List<User> users;*/
+    private List<User> users;
 
 
     public Role() {
@@ -49,13 +48,13 @@ public class Role  {
         this.name = name;
     }
 
-  /*  public List<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
     public void listUsers(List<User> users) {
         this.users = users;
-    }*/
+    }
 
     @Override
     public boolean equals(Object o) {

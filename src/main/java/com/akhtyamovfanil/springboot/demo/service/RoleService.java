@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,48 +18,41 @@ public class RoleService {
 
     @Autowired
     private RoleRepository roleRepository;
-    private  EntityManager entityManager;
-
+    @PersistenceContext
+    EntityManager entityManager;
 
     public void save(Role role) {
+
         Role managed = entityManager.merge(role);
         entityManager.persist(managed);
     }
 
 
     public void delete(Role role) {
-        Role managed = entityManager.merge(role);
-        entityManager.remove(managed);
+        roleRepository.delete(role);
+
     }
 
 
     public Role getById(Long id) {
-        return entityManager.find(Role.class, id );
+        return roleRepository.getById(id);
+
     }
 
 
     public Role getRoleByName(String rolename) {
-
-        return entityManager.createQuery("SELECT  r FROM Role r  where r.name  = :name", Role.class)
-                .setParameter("name", rolename)
-                .getSingleResult();
+        return roleRepository.getRoleByName(rolename);
 
     }
 
-
-    public List<Role> getRoleSet() {
-        return  roleRepository.findAllByName();
-     /*   try{
-            return new HashSet<>(entityManager.createQuery("SELECT r FROM Role r", Role.class)
-                    .getResultList());
-        } catch (NoResultException e){
-            e.printStackTrace();
-            return null;
-        }*/
+    public Set<Role> getRoleSet(){
+        return roleRepository.getRoleSet();
     }
-/*
-    public List<Role> getRoleSetForUser(String[] rolenames) {
-        List<Role> rolesSet = new HashSet<>();
+
+
+
+    public Set<Role> getRoleSetForUser(String[] rolenames) {
+        Set<Role> rolesSet = new HashSet<>();
         for (Role role : getRoleSet()) {
             for (String st : rolenames) {
                 if (st.equals(role.getName())) {
@@ -67,6 +61,6 @@ public class RoleService {
             }
         }
         return rolesSet;
-    }*/
+    }
 
 }

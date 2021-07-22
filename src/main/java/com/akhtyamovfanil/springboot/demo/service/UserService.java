@@ -19,6 +19,7 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
     private RoleService roleService;
 
 
@@ -33,19 +34,12 @@ public class UserService {
         return  userRepository.findAll();
     }
 
-    public void save(User user, String[] name) {
-        user.setPassword(user.getPassword());
-       // user.setRoles(roleService.getRoleSetForUser(name));
+    public void save(User user, String[] roles) {
+        user.setRoles(roleService.getRoleSetForUser(roles));
         userRepository.save(user);
     }
 
     public User getById(Long id) {
-     /*   User user = null;
-        Optional<User> optional = userRepository.findById(id);
-        if(optional.isPresent()){
-            user = optional.get();
-        }
-        return user;*/
         return userRepository.findById(id).get();
     }
 
