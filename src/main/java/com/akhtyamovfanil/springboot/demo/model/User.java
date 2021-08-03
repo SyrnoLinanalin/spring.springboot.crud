@@ -119,4 +119,12 @@ public class User {
                 ", email='" + email + '\'' +
                 '}';
     }
+
+    public String StringRole(){
+        StringBuilder builder = new StringBuilder();
+        for(Role role: roles){
+            builder.append(role.getName()).append(" ");
+        }
+        return  builder.toString().trim().substring(5);
+    }
 }

@@ -43,7 +43,7 @@ public class UserService {
         return userRepository.findById(id).get();
     }
 
-    public void delete(Long id) {
-        userRepository.deleteById(id);
+    public void delete(User user) {
+        userRepository.deleteById(user.getId());
     }
 }
